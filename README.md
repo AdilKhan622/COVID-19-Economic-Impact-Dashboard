@@ -1,4 +1,4 @@
-# COVID-19 and the Global Economy: an Interactive Dashboards
+# COVID-19 and the Global Economy: an Interactive Dashboard
 
 A multi-page Plotly Dash dashboard that explores and illustrates the economic impact of the COVID-19 pandemic.
 
@@ -67,8 +67,8 @@ Everyone contributes to the oral presentation and to code reviews.
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url>
-cd covid-dashboard
+git clone https://github.com/AdilKhan622/COVID-19-Economic-Impact-Dashboard.git
+cd COVID-19-Economic-Impact-Dashboard
 
 # 2. Create and activate the environment
 conda env create -f environment.yml
@@ -112,7 +112,7 @@ python app.py
 ## 4. Project structure
 
 ```
-covid-dashboard/
+COVID-19-Economic-Impact-Dashboard/
 ├── app.py                  # Dash entry point; exposes `server` for deployment
 ├── pages/                  # One file per dashboard page (Dash multi-page)
 │   ├── home.py
@@ -138,6 +138,9 @@ covid-dashboard/
 │   ├── schema.sql
 │   ├── load_data.py
 │   └── covid.sql           # Database dump
+├── docs/                   # ER diagram, screenshots for the fallback/presentation
+│   ├── er_diagram.png
+│   └── screenshots/
 ├── theme.py                # Shared colors, fonts and chart template
 ├── environment.yml
 ├── requirements.txt
@@ -155,7 +158,7 @@ covid-dashboard/
 | Source            | Content                                                 | Link                                   |
 | ----------------- | ------------------------------------------------------- | -------------------------------------- |
 | Our World in Data | COVID-19 cases, deaths, vaccinations, policy stringency | https://ourworldindata.org/coronavirus |
-| Eurostat          | European economic and COVID-19 indicators               | https://ec.europa.eu/eurostat          |
+| Eurostat          | European economic and COVID-19 indicators              | https://ec.europa.eu/eurostat          |
 | INSEE             | French economic and COVID-19 data                       | https://www.insee.fr                   |
 | Mendeley Data     | Research datasets on COVID-19                           | https://data.mendeley.com              |
 
@@ -394,4 +397,4 @@ Visualization can clarify reality or distort it. We follow these principles:
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
 
 Built at Centrale Méditerranée, Nice, 2026.
- 
+
