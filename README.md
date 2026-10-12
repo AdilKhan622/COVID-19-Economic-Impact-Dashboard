@@ -1,4 +1,4 @@
-# COVID-19 and the Global Economy: an Interactive Dashboard
+# COVID-19 and the Global Economy: an Interactive Dashboards
 
 A multi-page Plotly Dash dashboard that explores and illustrates the economic impact of the COVID-19 pandemic.
 
@@ -394,6 +394,4 @@ Visualization can clarify reality or distort it. We follow these principles:
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
 
 Built at Centrale Méditerranée, Nice, 2026.
-#   C O V I D - 1 9 - E c o n o m i c - I m p a c t - D a s h b o a r d 
- 
  
