@@ -394,7 +394,3 @@ Visualization can clarify reality or distort it. We follow these principles:
 - [Mendeley Data](https://data.mendeley.com)
 - [Plotly Dash documentation](https://dash.plotly.com) and [Dash Gallery](https://plotly.com/examples/)
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
-
-Built at Centrale Méditerranée, Nice, 2026.
-#   C O V I D - 1 9 - E c o n o m i c - I m p a c t - D a s h b o a r d  
- 
