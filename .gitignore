@@ -1,0 +1,64 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Conda / environment management
+.conda/
+.env
+.env.*
+
+# Jupyter / notebook checkpoints
+.ipynb_checkpoints/
+
+# Python tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Local editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data / generated files
+data/raw/
+data/cleaned/
+*.csv
+*.parquet
+*.sqlite
+*.db
+
+# Streamlit / app runtime artifacts
+.streamlit/
+.python-version
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Local secrets/config
+secrets.json
+config.local.*
