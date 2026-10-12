@@ -25,8 +25,6 @@ Project for **CentraleDigitalLab: Data Storytelling and Visualization** (Central
 12. [Evaluation criteria](#12-evaluation-criteria)
 13. [Sources and credits](#13-sources-and-credits)
 
----
-
 ## 1. Project overview
 
 Opinions about how COVID-19 affected the global economy vary widely. This project replaces opinions with evidence: we collect real-world data, clean it, analyse it, and present the findings through an interactive, multi-page dashboard.
@@ -396,5 +394,6 @@ Visualization can clarify reality or distort it. We follow these principles:
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
 
 Built at Centrale Méditerranée, Nice, 2026.
-#   C O V I D - 1 9 - E c o n o m i c - I m p a c t - D a s h b o a r d  
+#   C O V I D - 1 9 - E c o n o m i c - I m p a c t - D a s h b o a r d 
+ 
  
