@@ -7,6 +7,8 @@ Project for **CentraleDigitalLab: Data Storytelling and Visualization** (Central
 > **Live demo:** _<add the URL here once deployed>_
 > **Deadline:** final dashboard and 20-minute group oral presentation, **October 21**.
 
+> **Current status (2026-10-12):** raw data from all four sources (OWID, Eurostat, INSEE, Mendeley) has been collected and validated under [`covid-economic-dashboard/`](covid-economic-dashboard/). Scope, provenance and limitations for each source are documented in [`covid-economic-dashboard/docs/DATASETS.md`](covid-economic-dashboard/docs/DATASETS.md). The Dash app itself (`app.py`, pages, components) has not been written yet.
+
 ---
 
 ## Table of contents
@@ -74,11 +76,14 @@ cd COVID-19-Economic-Impact-Dashboard
 conda env create -f environment.yml
 conda activate covid-dashboard
 
-# 3. Run the dashboard
+# 3. Move into the Dash project and run it
+cd covid-economic-dashboard
 python app.py
 ```
 
 Then open **http://127.0.0.1:8050** in your browser.
+
+> `app.py` does not exist yet (see the status note at the top of this README). Until it does, you can still pull the raw datasets with `bash covid-economic-dashboard/scripts/download_data.sh`.
 
 ### Alternative: pip
 
@@ -86,6 +91,7 @@ Then open **http://127.0.0.1:8050** in your browser.
 conda create -n covid-dashboard python=3.12
 conda activate covid-dashboard
 pip install -r requirements.txt
+cd covid-economic-dashboard
 python app.py
 ```
 
@@ -104,7 +110,7 @@ python app.py
 ### Troubleshooting
 
 - **Port already in use:** change the port with `app.run(debug=True, port=8051)`.
-- **Missing data files:** make sure `data/clean/` is populated. If it is not, run the preprocessing script (see [Data](#5-data)).
+- **Missing data files:** make sure `covid-economic-dashboard/data/raw/` is populated (clone it with the repo, or re-run `scripts/download_data.sh`), then generate `data/processed/` (see [Data](#5-data)).
 - **Environment conflicts:** remove and recreate it: `conda env remove -n covid-dashboard`, then repeat step 2.
 
 ---
@@ -113,73 +119,88 @@ python app.py
 
 ```
 COVID-19-Economic-Impact-Dashboard/
-├── app.py                  # Dash entry point; exposes `server` for deployment
-├── pages/                  # One file per dashboard page (Dash multi-page)
-│   ├── home.py
-│   ├── timeline.py
-│   ├── economy.py
-│   ├── countries.py
-│   ├── analysis.py
-│   └── methodology.py
-├── components/             # Reusable UI building blocks
-│   ├── cards.py            # kpi_card, chart_card
-│   ├── layout.py           # navbar, footer, page_header
-│   └── callouts.py         # insight_box
-├── assets/                 # Auto-loaded by Dash
-│   ├── style.css           # Custom styling
-│   ├── favicon.ico
-│   └── logo.png
-├── data/
-│   ├── raw/                # Original downloads (never edited by hand)
-│   └── clean/              # Processed datasets used by the app
-├── notebooks/              # Exploratory analysis
-├── scripts/                # Data download and preprocessing scripts
-├── db/                     # Bonus: MySQL
-│   ├── schema.sql
-│   ├── load_data.py
-│   └── covid.sql           # Database dump
-├── docs/                   # ER diagram, screenshots for the fallback/presentation
-│   ├── er_diagram.png
-│   └── screenshots/
-├── theme.py                # Shared colors, fonts and chart template
-├── environment.yml
-├── requirements.txt
-└── README.md
+├── environment.yml                # Conda environment (covid-dashboard)
+├── requirements.txt               # Same dependencies, for pip/venv
+├── README.md                      # This file
+└── covid-economic-dashboard/      # Dash project root
+    ├── README.md                  # Current status + re-download instructions
+    ├── app.py                     # Dash entry point; exposes `server`              [to be added]
+    ├── pages/                     # One file per dashboard page (Dash multi-page)   [to be added]
+    │   ├── home.py
+    │   ├── timeline.py
+    │   ├── economy.py
+    │   ├── countries.py
+    │   ├── analysis.py
+    │   └── methodology.py
+    ├── components/                # Reusable UI building blocks                    [to be added]
+    │   ├── cards.py                # kpi_card, chart_card
+    │   ├── layout.py                # navbar, footer, page_header
+    │   └── callouts.py            # insight_box
+    ├── assets/                    # Auto-loaded by Dash                            [to be added]
+    │   ├── style.css
+    │   ├── favicon.ico
+    │   └── logo.png
+    ├── theme.py                   # Shared colors, fonts and chart template        [to be added]
+    ├── data/
+    │   ├── raw/                   # Original downloads, never edited by hand       [done]
+    │   │   ├── owid/              # Cases, deaths, vaccinations, policy stringency
+    │   │   ├── eurostat/          # Quarterly GDP + monthly unemployment (JSON-stat)
+    │   │   ├── insee/             # "Impact de la crise" survey: 33 tables + metadata
+    │   │   └── mendeley/          # Global macroeconomic scenarios (model outputs)
+    │   └── processed/             # Cleaned, joined, analysis-ready tables         [to be added]
+    ├── notebooks/                 # Exploratory analysis                          [to be added]
+    ├── scripts/
+    │   ├── download_data.sh       # Re-downloads every raw source                  [done]
+    │   └── preprocess.py          # raw/ -> processed/                            [to be added]
+    ├── docs/
+    │   ├── DATASETS.md            # Dataset inventory: scope, provenance, limits   [done]
+    │   ├── er_diagram.png         # Bonus ER diagram                              [to be added]
+    │   └── screenshots/           # Presentation fallback                        [to be added]
+    └── db/                        # Bonus: MySQL                                 [to be added]
+        ├── schema.sql
+        ├── load_data.py
+        └── covid.sql              # Database dump
 ```
 
-> Adjust this tree if the final layout differs, so the README stays accurate.
+> Items marked `[to be added]` are planned but don't exist yet. Adjust this tree as the real layout evolves, so the README stays accurate.
 
 ---
 
 ## 5. Data
 
-### Sources
+All paths below are relative to `covid-economic-dashboard/`. Full provenance, retrieval dates, coverage, and known limitations for every source are kept in [`docs/DATASETS.md`](covid-economic-dashboard/docs/DATASETS.md) — read it before building any chart on top of these files.
 
-| Source            | Content                                                 | Link                                   |
-| ----------------- | ------------------------------------------------------- | -------------------------------------- |
-| Our World in Data | COVID-19 cases, deaths, vaccinations, policy stringency | https://ourworldindata.org/coronavirus |
-| Eurostat          | European economic and COVID-19 indicators              | https://ec.europa.eu/eurostat          |
-| INSEE             | French economic and COVID-19 data                       | https://www.insee.fr                   |
-| Mendeley Data     | Research datasets on COVID-19                           | https://data.mendeley.com              |
+### Sources (retrieved 2026-10-12)
 
-_Update this table with the datasets actually used, including download date and license._
+| Source                                                              | Content                                                                          | Local files          |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------- |
+| [Our World in Data](https://ourworldindata.org/coronavirus)           | Cases, deaths, hospital/ICU, vaccination, testing, policy stringency (2020-2026)  | `data/raw/owid/`      |
+| [Eurostat](https://ec.europa.eu/eurostat/en/web/covid-19/economy)     | Quarterly real GDP growth (`namq_10_gdp`) and monthly unemployment (`une_rt_m`)   | `data/raw/eurostat/`  |
+| [INSEE](https://www.insee.fr/fr/statistiques/5356431)                 | 2020 survey on the pandemic's impact on French business activity (33 tables)      | `data/raw/insee/`     |
+| [Mendeley Data](https://doi.org/10.17632/4d7rfm4s77.2) (CC BY 4.0)    | Global macroeconomic scenarios — **modelled**, not observed outcomes              | `data/raw/mendeley/`  |
+
+Re-download everything (the OWID/Eurostat endpoints are live and revision-prone, so files can legitimately change on a re-run):
+
+```bash
+bash covid-economic-dashboard/scripts/download_data.sh
+```
 
 ### Pipeline
 
-1. **Collect:** raw files are stored in `data/raw/` and never modified.
-2. **Clean:** scripts in `scripts/` handle missing values, type conversion, country-code harmonisation, date alignment and unit consistency.
-3. **Merge:** health and economic indicators are joined by country (ISO code) and period.
-4. **Explore:** notebooks in `notebooks/` document trends, correlations and anomalies.
-5. **Output:** analysis-ready files go to `data/clean/`.
+1. **Collect:** `scripts/download_data.sh` fetches every source into `data/raw/<source>/`; raw files are never modified by hand. ✅ done
+2. **Clean:** `scripts/preprocess.py` will handle missing values, type conversion, country-code harmonisation, date alignment and unit consistency. ⬜ to be written
+3. **Merge:** health and economic indicators are joined by country (ISO code) and period. The Mendeley scenarios are model outputs and must stay separate — they must not be merged into the observed-data fact table (see `DATASETS.md`).
+4. **Explore:** notebooks in `notebooks/` will document trends, correlations and anomalies.
+5. **Output:** analysis-ready files go to `data/processed/`.
 
 ```bash
-# Rebuild the clean data from the raw files
-python scripts/preprocess.py
+# Once written, rebuild the processed data from the raw files
+python covid-economic-dashboard/scripts/preprocess.py
 ```
 
 ### Data dictionary
 
-_A fills this in. One row per column used by the dashboard._
+_A fills this in once `preprocess.py` exists. One row per column used by the dashboard._
 
 | Column              | Description                     | Unit       | Source | Frequency |
 | ------------------- | ------------------------------- | ---------- | ------ | --------- |
@@ -323,7 +344,7 @@ gunicorn app:server
 
 - Free instances may sleep when idle and take about 30 seconds to wake up. Open the app before the presentation.
 - Keep datasets small to stay within memory limits.
-- The deployed version reads from files in `data/clean/`. The MySQL database is included as a dump and can be used locally.
+- The deployed version reads from files in `data/processed/`. The MySQL database is included as a dump and can be used locally.
 - **Fallback:** the app always runs locally with `python app.py`, and screenshots are stored in `docs/screenshots/`.
 
 ---
@@ -390,9 +411,9 @@ Visualization can clarify reality or distort it. We follow these principles:
 ## 13. Sources and credits
 
 - [Our World in Data: Coronavirus](https://ourworldindata.org/coronavirus)
-- [Eurostat](https://ec.europa.eu/eurostat)
-- [INSEE](https://www.insee.fr)
-- [Mendeley Data](https://data.mendeley.com)
+- [Eurostat: COVID-19 and the economy](https://ec.europa.eu/eurostat/en/web/covid-19/economy)
+- [INSEE: Impact de la crise sanitaire sur l'activité des entreprises](https://www.insee.fr/fr/statistiques/5356431)
+- [Mendeley Data: The Global Economic Impacts of the COVID-19 Pandemic (DOI 10.17632/4d7rfm4s77.2)](https://doi.org/10.17632/4d7rfm4s77.2)
 - [Plotly Dash documentation](https://dash.plotly.com) and [Dash Gallery](https://plotly.com/examples/)
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
 
