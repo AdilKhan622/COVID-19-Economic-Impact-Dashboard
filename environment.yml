@@ -1,0 +1,15 @@
+name: covid-dashboard
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - dash
+      - plotly
+      - pandas
+      - dash-bootstrap-components
+      - dash-bootstrap-templates
+      - gunicorn
+      - sqlalchemy
+      - pymysql
