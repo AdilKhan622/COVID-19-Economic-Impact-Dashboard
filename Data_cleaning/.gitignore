@@ -1,0 +1,6 @@
+# Everything under data/raw/ IS committed and visible on GitHub, except this
+# one file: it's 224MB, over GitHub's 100MB hard limit for a normal git push,
+# so it cannot be committed at all. Re-fetch it from the official source (see
+# the README/DATA_CLEANING_DOCUMENTATION.md for the exact URL) or ask a
+# teammate to share it directly.
+data/raw/google_mobility/mobility.csv

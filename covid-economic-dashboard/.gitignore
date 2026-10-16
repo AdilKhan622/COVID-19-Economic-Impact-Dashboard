@@ -1,9 +1,0 @@
-# Raw source files are reproducible via scripts/download_data.sh.
-# OWID's current compact CSV is larger than GitHub's normal 100 MB limit.
-data/raw/
-
-# Local Python/runtime artifacts.
-__pycache__/
-*.py[cod]
-.venv/
-.env
