@@ -40,10 +40,11 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Data / generated files
+# Raw data is reproducible via covid-economic-dashboard/scripts/download_data.sh
+# (OWID's compact.csv alone is ~175MB, over GitHub's 100MB limit) — keep it out of git.
+# data/processed/ is NOT ignored: those files are a real deliverable, meant to be
+# committed so teammates/graders can see results without re-running the pipeline.
 data/raw/
-data/cleaned/
-*.csv
 *.parquet
 *.sqlite
 *.db
