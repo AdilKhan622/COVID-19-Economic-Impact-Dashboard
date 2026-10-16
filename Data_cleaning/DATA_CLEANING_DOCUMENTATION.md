@@ -1,14 +1,14 @@
-# Nour's Data-Cleaning Documentation
+# Data-Cleaning Documentation
 
-## 1. Scope of Nour's assignment
+## 1. Scope of this part of the project
 
-Based on the group's allocation, Nour is responsible for cleaning:
+Based on the group's allocation, this part covers cleaning:
 
 1. Oxford COVID-19 Government Response Tracker (OxCGRT)
 2. Google COVID-19 Community Mobility data
 3. World Bank country metadata
 
-The World Bank economic indicators, IMF WEO, OWID COVID-19 data, and Mendeley dataset are assigned to Anushka and are not processed here.
+The World Bank economic indicators, IMF WEO, OWID COVID-19 data, and Mendeley dataset are assigned to the other dataset track and are not processed here.
 
 ## 2. What these datasets contribute
 
@@ -16,7 +16,7 @@ The World Bank economic indicators, IMF WEO, OWID COVID-19 data, and Mendeley da
 - **Google Mobility** describes changes in visits to workplaces, retail locations, transit stations, grocery stores, parks, and residential locations relative to Google's pre-pandemic baseline.
 - **World Bank metadata** supplies standardized country/economy names, codes, regions, income groups, capitals, and coordinates.
 
-These data do not contain the main economic outcomes. They provide policy, behaviour, and country-context variables that can later be joined to Anushka's economic data.
+These data do not contain the main economic outcomes. They provide policy, behaviour, and country-context variables that can later be joined to the economic data from the other dataset track.
 
 ## 3. Reproducible folder structure
 
@@ -221,15 +221,15 @@ mobility_residential
 
 Missing daily mobility values were retained. Missingness ranges from 0.79% for workplace mobility to 2.24% for residential mobility. Exact values are recorded in the validation report.
 
-## 8. Step D - Merge of Nour's cleaned datasets
+## 8. Step D - Merge of the cleaned datasets
 
-Script: `scripts/merge_nour_datasets.py`
+Script: `scripts/merge_cleaned_datasets.py`
 
 The processed policy and mobility tables are merged using `iso_code + year`. Country names are labels only and are never used as join keys. World Bank metadata are added using `iso_code`.
 
 The merge uses the union of policy and mobility country-year keys so that a record is not silently discarded merely because one source does not cover it.
 
-Output: `data/processed/nour_country_year_clean.csv`
+Output: `data/processed/merged_country_year_clean.csv`
 
 - 564 country-year rows
 - 36 columns
@@ -304,7 +304,7 @@ This executes, in order:
 1. World Bank metadata cleaning
 2. OxCGRT cleaning and annual aggregation
 3. Google Mobility cleaning and annual aggregation
-4. Merge of Nour's three outputs
+4. Merge of the three outputs above
 5. Validation and report generation
 
 Running the pipeline recreates all files under `data/interim`, `data/processed`, and `reports` while leaving `data/raw` unchanged.

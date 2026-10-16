@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Merge Nour's cleaned country-year datasets without using country names as keys."""
+"""Merge the cleaned country-year datasets without using country names as keys."""
 
 import csv
 from pathlib import Path
@@ -10,7 +10,7 @@ PROCESSED = PROJECT_ROOT / "data" / "processed"
 METADATA_PATH = PROCESSED / "country_metadata_clean.csv"
 POLICY_PATH = PROCESSED / "oxcgrt_country_year_clean.csv"
 MOBILITY_PATH = PROCESSED / "google_mobility_country_year_clean.csv"
-OUTPUT_PATH = PROCESSED / "nour_country_year_clean.csv"
+OUTPUT_PATH = PROCESSED / "merged_country_year_clean.csv"
 
 
 def read_rows(path: Path) -> tuple[list[str], list[dict[str, str]]]:

@@ -63,14 +63,14 @@ def main() -> None:
     mobility_annual_fields, mobility_annual = read_csv(
         PROCESSED / "google_mobility_country_year_clean.csv"
     )
-    merged_fields, merged = read_csv(PROCESSED / "nour_country_year_clean.csv")
+    merged_fields, merged = read_csv(PROCESSED / "merged_country_year_clean.csv")
 
     assert_unique(metadata, ["iso_code"], "World Bank metadata")
     assert_unique(ox_daily, ["iso_code", "date"], "OxCGRT daily")
     assert_unique(ox_annual, ["iso_code", "year"], "OxCGRT annual")
     assert_unique(mobility_daily, ["iso_code", "date"], "Mobility daily")
     assert_unique(mobility_annual, ["iso_code", "year"], "Mobility annual")
-    assert_unique(merged, ["iso_code", "year"], "Merged Nour dataset")
+    assert_unique(merged, ["iso_code", "year"], "Merged dataset")
 
     metadata_codes = {row["iso_code"] for row in metadata}
     policy_codes = {row["iso_code"] for row in ox_annual}
@@ -101,7 +101,7 @@ def main() -> None:
         f"| OxCGRT | Country-year | {len(ox_annual):,} | {len(ox_annual_fields)} |",
         f"| Google Mobility | Clean country-day | {len(mobility_daily):,} | {len(mobility_daily_fields)} |",
         f"| Google Mobility | Country-year | {len(mobility_annual):,} | {len(mobility_annual_fields)} |",
-        f"| Nour combined | Country-year | {len(merged):,} | {len(merged_fields)} |",
+        f"| Combined (merged) | Country-year | {len(merged):,} | {len(merged_fields)} |",
         "",
         "## Uniqueness checks",
         "",

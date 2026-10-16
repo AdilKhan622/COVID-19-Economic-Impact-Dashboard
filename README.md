@@ -161,7 +161,7 @@ COVID-19-Economic-Impact-Dashboard/
     │   ├── clean_world_bank_metadata.py
     │   ├── clean_oxcgrt.py
     │   ├── clean_google_mobility.py
-    │   ├── merge_nour_datasets.py
+    │   ├── merge_cleaned_datasets.py
     │   ├── validate_cleaned_data.py
     │   └── run_all_cleaning.py         # Runs all five scripts above, in order
     └── reports/
@@ -194,9 +194,9 @@ World Bank economic indicators, IMF WEO, OWID COVID-19 data, and the Mendeley da
 
 1. **Collect:** raw files in `data/raw/<source>/`, never edited by hand. ✅ done
 2. **Clean:** each source gets its own script (`clean_oxcgrt.py`, `clean_google_mobility.py`, `clean_world_bank_metadata.py`) — country-level filtering, date parsing, numeric conversion, ISO-code harmonisation (including a Kosovo `RKS` → `XKX` crosswalk). Missing values are kept as missing, never zero-filled. ✅ done
-3. **Merge:** `merge_nour_datasets.py` joins the three cleaned country-year tables on `iso_code` + `year`, using the union of keys so no record is dropped just because one source doesn't cover it. ✅ done
+3. **Merge:** `merge_cleaned_datasets.py` joins the three cleaned country-year tables on `iso_code` + `year`, using the union of keys so no record is dropped just because one source doesn't cover it. ✅ done
 4. **Validate:** `validate_cleaned_data.py` checks primary-key uniqueness, reports missing-value rates and unmatched country codes, and records raw-file SHA-256 fingerprints. ✅ done, currently **PASS**
-5. **Output:** `data/interim/` (country-day) and `data/processed/` (country-year + the merged `nour_country_year_clean.csv`).
+5. **Output:** `data/interim/` (country-day) and `data/processed/` (country-year + the merged `merged_country_year_clean.csv`).
 
 ```bash
 # Re-run the whole pipeline (stdlib only, no extra packages needed)
@@ -205,7 +205,7 @@ python3 Data_cleaning/scripts/run_all_cleaning.py
 
 ### Data dictionary
 
-Selected columns from `data/processed/nour_country_year_clean.csv` (primary key `iso_code` + `year`):
+Selected columns from `data/processed/merged_country_year_clean.csv` (primary key `iso_code` + `year`):
 
 | Column                            | Description                                                       | Unit    | Source     | Frequency (source) |
 | ----------------------------------- | --------------------------------------------------------------------- | ------- | ---------- | --------------------- |

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run Nour's complete cleaning pipeline in a reproducible order."""
+"""Run the complete cleaning pipeline in a reproducible order."""
 
 import subprocess
 import sys
@@ -11,7 +11,7 @@ SCRIPTS = [
     "clean_world_bank_metadata.py",
     "clean_oxcgrt.py",
     "clean_google_mobility.py",
-    "merge_nour_datasets.py",
+    "merge_cleaned_datasets.py",
     "validate_cleaned_data.py",
 ]
 
