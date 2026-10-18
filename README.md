@@ -45,12 +45,12 @@ Opinions about how COVID-19 affected the global economy vary widely. This projec
 
 ## 2. Team and roles
 
-| Role                                   | Member   | Responsibilities                                                                                                                          |
-| -------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **A: Data and Preprocessing**          | _name_, _name_ | Dataset search, collection, cleaning, merging, exploratory analysis, data documentation                                       |
-| **B: Analyst and Storyteller**         | _name_   | Critical analysis (are the data sufficient?), narrative strategy, choice of indicators and chart types, bias review, annotations and text |
-| **C: Dashboard Developer**             | _name_   | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
-| **D: Design, Deployment and Database** | _name_   | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
+| Role                                   | Member         | Responsibilities                                                                                                                          |
+| -------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **A: Data and Preprocessing**          | _name_, _name_ | Dataset search, collection, cleaning, merging, exploratory analysis, data documentation                                                   |
+| **B: Analyst and Storyteller**         | _name_         | Critical analysis (are the data sufficient?), narrative strategy, choice of indicators and chart types, bias review, annotations and text |
+| **C: Dashboard Developer**             | _name_         | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
+| **D: Design, Deployment and Database** | _name_         | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
 
 Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (`Data_cleaning/`); the other covers World Bank economic indicators, IMF WEO, OWID, and Mendeley (not yet in this repo).
 
@@ -178,11 +178,11 @@ All paths below are relative to `Data_cleaning/`. Full provenance, cleaning step
 
 ### Sources in this repo (retrieved 2026-10-15)
 
-| Source                                                                                        | Content                                                                                                   | Local files                 |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| [OxCGRT](https://github.com/OxCGRT/covid-policy-dataset)                                         | Government-response policy indices (school/workplace closing, stringency, etc.), Jan 2020 – Dec 2022         | `data/raw/oxcgrt/`             |
-| [Google COVID-19 Mobility](https://storage.googleapis.com/covid19-open-data/v3/mobility.csv)     | % change in visits to retail, grocery, transit, workplaces, parks, residential vs. pre-pandemic baseline     | `data/raw/google_mobility/`    |
-| [World Bank country API](https://api.worldbank.org/v2/country?format=json&per_page=400)          | Country/economy names, ISO codes, region, income group, capital, coordinates                                  | `data/raw/world_bank/`         |
+| Source                                                                                       | Content                                                                                                  | Local files                 |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------- |
+| [OxCGRT](https://github.com/OxCGRT/covid-policy-dataset)                                     | Government-response policy indices (school/workplace closing, stringency, etc.), Jan 2020 – Dec 2022     | `data/raw/oxcgrt/`          |
+| [Google COVID-19 Mobility](https://storage.googleapis.com/covid19-open-data/v3/mobility.csv) | % change in visits to retail, grocery, transit, workplaces, parks, residential vs. pre-pandemic baseline | `data/raw/google_mobility/` |
+| [World Bank country API](https://api.worldbank.org/v2/country?format=json&per_page=400)      | Country/economy names, ISO codes, region, income group, capital, coordinates                             | `data/raw/world_bank/`      |
 
 > `google_mobility/mobility.csv` (224MB) is **not committed** — it's over GitHub's 100MB hard limit. Re-download it from the URL above and drop it in `data/raw/google_mobility/` before running the pipeline. Everything else in `data/raw/` **is** committed and visible on GitHub.
 
@@ -207,16 +207,16 @@ python3 Data_cleaning/scripts/run_all_cleaning.py
 
 Selected columns from `data/processed/merged_country_year_clean.csv` (primary key `iso_code` + `year`):
 
-| Column                            | Description                                                       | Unit    | Source     | Frequency (source) |
-| ----------------------------------- | --------------------------------------------------------------------- | ------- | ---------- | --------------------- |
-| `iso_code`                          | ISO 3166-1 alpha-3 country/economy code                               | n/a     | all        | n/a                    |
-| `year`                               | Calendar year (2020–2022)                                              | n/a     | n/a        | n/a                    |
-| `stringency_index`                  | Overall government-response stringency, annual mean                   | 0–100   | OxCGRT     | Daily                  |
-| `school_closing`                    | School-closure policy level, annual mean                              | ordinal | OxCGRT     | Daily                  |
-| `mobility_workplaces`               | Change in workplace visits vs. baseline, annual mean                  | %       | Google     | Daily                  |
-| `mobility_retail_and_recreation`    | Change in retail/recreation visits vs. baseline                       | %       | Google     | Daily                  |
-| `region`, `income_group`            | World Bank country classification                                     | n/a     | World Bank | Static                 |
-| `has_policy_data`, `has_mobility_data`, `has_world_bank_metadata` | Traceability flags for which sources cover this row | boolean | merge script | n/a                  |
+| Column                                                            | Description                                          | Unit    | Source       | Frequency (source) |
+| ----------------------------------------------------------------- | ---------------------------------------------------- | ------- | ------------ | ------------------ |
+| `iso_code`                                                        | ISO 3166-1 alpha-3 country/economy code              | n/a     | all          | n/a                |
+| `year`                                                            | Calendar year (2020–2022)                            | n/a     | n/a          | n/a                |
+| `stringency_index`                                                | Overall government-response stringency, annual mean  | 0–100   | OxCGRT       | Daily              |
+| `school_closing`                                                  | School-closure policy level, annual mean             | ordinal | OxCGRT       | Daily              |
+| `mobility_workplaces`                                             | Change in workplace visits vs. baseline, annual mean | %       | Google       | Daily              |
+| `mobility_retail_and_recreation`                                  | Change in retail/recreation visits vs. baseline      | %       | Google       | Daily              |
+| `region`, `income_group`                                          | World Bank country classification                    | n/a     | World Bank   | Static             |
+| `has_policy_data`, `has_mobility_data`, `has_world_bank_metadata` | Traceability flags for which sources cover this row  | boolean | merge script | n/a                |
 
 The economic columns (GDP growth, unemployment, etc.) from the other dataset track are `_tbd_` until that part is merged in.
 
@@ -441,4 +441,3 @@ Visualization can clarify reality or distort it. We follow these principles:
 - [Dash Bootstrap Components](https://dash-bootstrap-components.opensource.faculty.ai/)
 
 Built at Centrale Méditerranée, Nice, 2026.
-

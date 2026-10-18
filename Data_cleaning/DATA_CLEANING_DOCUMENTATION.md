@@ -312,3 +312,27 @@ Running the pipeline recreates all files under `data/interim`, `data/processed`,
 ## 13. Plain-English summary for the group
 
 > I preserved the original source files, filtered the time-series datasets to country-level observations, standardized the dates and country codes, converted the selected measures to numeric values, retained missing values rather than treating them as zero, produced both daily and annual files, and checked that every country-date and country-year key is unique. I also documented source coverage and unmatched country codes so the cleaned data can be merged safely with the economic datasets.
+
+## 14. Dashboard integration of World Bank economic indicators
+
+The dashboard-specific integration is implemented in `scripts/prepare_dashboard_data.py`. It adds only the three supplied World Bank indicator downloads:
+
+| Indicator | Output field | Unit |
+|---|---|---|
+| `NY.GDP.MKTP.KD.ZG` | `real_gdp_growth_pct` | Annual real GDP growth (%) |
+| `SL.UEM.TOTL.ZS` | `unemployment_rate_pct` | Modeled ILO unemployment (% of labor force) |
+| `FP.CPI.TOTL.ZG` | `inflation_rate_pct` | Annual consumer-price inflation (%) |
+
+The original wide downloads are preserved under `data/raw/world_bank/economic_indicators/`. The script skips the four World Bank CSV preamble lines, melts year columns to a long country/year/value shape, normalizes ISO3 codes and integer years, filters aggregate rows using `country_metadata_clean.csv`, and validates one-to-one country-year joins. The existing `merged_master_annual.csv` remains unchanged.
+
+The derived output is `data/processed/dashboard_master_annual.csv`. It uses the union of original-master and economic-indicator keys, keeping historical observations from 1960 onward and available observations through 2025. COVID, policy and mobility columns remain missing outside their original coverage. No economic values are zero-filled or interpolated.
+
+Derived comparison columns are country-specific: GDP growth deterioration is 2019 real growth minus selected-year real growth; unemployment and inflation changes are selected-year minus 2019 rates in percentage points. A missing 2019 observation leaves that comparison missing. The nominal GDP level series `wdi_gdp` is not used to represent real economic growth.
+
+Reproduce the integration and generated report from the repository root:
+
+```bash
+python Data_cleaning/scripts/prepare_dashboard_data.py
+```
+
+The row/column counts, year and country coverage, missingness, aggregate exclusions and unmatched codes are written to `reports/dashboard_data_integration.md`.
