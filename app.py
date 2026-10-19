@@ -2,7 +2,7 @@
 
 from dash import Dash, Input, Output, State, dcc, html, page_container, page_registry
 
-from data_utils import load_data
+from components.data_utils import load_data
 
 
 app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True, title="COVID-19 & the Global Economy")
@@ -50,7 +50,7 @@ app.layout = html.Div([
 )
 def download_filtered(_clicks, year, region, income):
     import pandas as pd
-    from data_utils import filtered_data
+    from components.data_utils import filtered_data
 
     data = filtered_data(year, region, income)
     if data.empty:

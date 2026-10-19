@@ -5,8 +5,8 @@ import plotly.express as px
 from dash import Input, Output, callback, html, register_page
 
 from components.layout import chart_card, empty_figure, insight, kpi_card, page_header, select, source_note, styled_figure
-from data_utils import filtered_data, load_data
-from theme import BLUE, PALETTE, RED, TEAL
+from components.data_utils import filtered_data, load_data
+from assets.theme import BLUE, PALETTE, RED, TEAL
 
 
 register_page(__name__, path="/", name="Overview", order=0)

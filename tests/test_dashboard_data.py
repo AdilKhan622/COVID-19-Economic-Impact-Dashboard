@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from data_utils import DATA_PATH
-from counterfactual import build_growth_counterfactual
-from impact_index import STANDARDIZED_COLUMNS, build_economic_strain_index
+from components.data_utils import DATA_PATH
+from components.counterfactual import build_growth_counterfactual
+from components.impact_index import STANDARDIZED_COLUMNS, build_economic_strain_index
 
 
 class DashboardDataTests(unittest.TestCase):

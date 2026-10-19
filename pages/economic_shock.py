@@ -5,9 +5,9 @@ import plotly.express as px
 from dash import Input, Output, callback, html, register_page
 
 from components.layout import chart_card, empty_figure, insight, page_header, source_note, styled_figure
-from counterfactual import PANDEMIC_YEARS, build_growth_counterfactual
-from data_utils import filtered_data, load_impact_index
-from theme import BLUE, RED
+from components.counterfactual import PANDEMIC_YEARS, build_growth_counterfactual
+from components.data_utils import filtered_data, load_impact_index
+from assets.theme import BLUE, RED
 
 
 register_page(__name__, path="/economic-shock", name="Economic shock", order=1)

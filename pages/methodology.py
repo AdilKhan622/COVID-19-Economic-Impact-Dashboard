@@ -4,7 +4,7 @@ import pandas as pd
 from dash import html, register_page
 
 from components.layout import page_header, source_note
-from data_utils import load_data
+from components.data_utils import load_data
 
 
 register_page(__name__, path="/methodology", name="Data & method", order=5)

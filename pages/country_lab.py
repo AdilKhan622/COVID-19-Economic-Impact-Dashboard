@@ -5,8 +5,8 @@ import plotly.express as px
 from dash import Input, Output, callback, dcc, html, register_page
 
 from components.layout import chart_card, empty_figure, page_header, source_note, styled_figure
-from data_utils import country_options, filtered_data, load_data
-from theme import PALETTE
+from components.data_utils import country_options, filtered_data, load_data
+from assets.theme import PALETTE
 
 
 register_page(__name__, path="/country-lab", name="Country lab", order=4)

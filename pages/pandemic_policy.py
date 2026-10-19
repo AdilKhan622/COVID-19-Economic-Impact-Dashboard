@@ -5,8 +5,8 @@ import plotly.express as px
 from dash import Input, Output, callback, html, register_page
 
 from components.layout import chart_card, empty_figure, insight, page_header, source_note, styled_figure
-from data_utils import filtered_data
-from theme import AMBER, BLUE, RED, TEAL
+from components.data_utils import filtered_data
+from assets.theme import AMBER, BLUE, RED, TEAL
 
 
 register_page(__name__, path="/pandemic-policy", name="Pandemic & policy", order=3)

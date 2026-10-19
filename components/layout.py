@@ -2,7 +2,7 @@
 
 from dash import dcc, html
 
-from theme import FIGURE_STYLE, INK, LINE, MUTED, PANEL
+from assets.theme import FIGURE_STYLE, INK, LINE, MUTED, PANEL
 
 
 def page_header(title: str, question: str, description: str):

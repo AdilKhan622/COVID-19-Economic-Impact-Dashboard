@@ -4,10 +4,10 @@ from functools import lru_cache
 from pathlib import Path
 
 import pandas as pd
-from impact_index import build_economic_strain_index
+from components.impact_index import build_economic_strain_index
 
 
-DATA_PATH = Path(__file__).resolve().parent / "Data_cleaning" / "data" / "processed" / "dashboard_master_annual.csv"
+DATA_PATH = Path(__file__).resolve().parents[1] / "data_cleaning" / "data" / "processed" / "dashboard_master_annual.csv"
 VALUE_COLUMNS = [
     "real_gdp_growth_pct", "unemployment_rate_pct", "inflation_rate_pct",
     "totalcases", "totaldeaths", "newcases", "newdeaths", "population",
@@ -22,7 +22,7 @@ def load_data() -> pd.DataFrame:
     if not DATA_PATH.exists():
         raise FileNotFoundError(
             f"Dashboard data is missing at {DATA_PATH}. Run "
-            "python Data_cleaning/scripts/prepare_dashboard_data.py first."
+            "python data_cleaning/scripts/prepare_dashboard_data.py first."
         )
     data = pd.read_csv(DATA_PATH, low_memory=False)
     data["country_code"] = data["country_code"].astype(str).str.upper()
