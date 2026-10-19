@@ -1,0 +1,41 @@
+USE covid;
+-- Run once when upgrading a database created from the previous schema.sql.
+ALTER TABLE country
+ADD COLUMN iso2_code CHAR(2),
+    ADD COLUMN capital_city VARCHAR(100),
+    ADD COLUMN longitude DECIMAL(10, 6),
+    ADD COLUMN latitude DECIMAL(10, 6);
+CREATE TABLE IF NOT EXISTS country_year (
+    iso_code CHAR(3) NOT NULL,
+    year SMALLINT UNSIGNED NOT NULL,
+    school_closing_avg DECIMAL(8, 4),
+    workplace_closing_avg DECIMAL(8, 4),
+    stay_home_requirements_avg DECIMAL(8, 4),
+    international_travel_controls_avg DECIMAL(8, 4),
+    stringency_index_avg DECIMAL(8, 4),
+    government_response_index_avg DECIMAL(8, 4),
+    containment_health_index_avg DECIMAL(8, 4),
+    economic_support_index_avg DECIMAL(8, 4),
+    policy_days_observed INT UNSIGNED,
+    policy_period_start DATE,
+    policy_period_end DATE,
+    mobility_retail_and_recreation_avg DECIMAL(9, 4),
+    mobility_grocery_and_pharmacy_avg DECIMAL(9, 4),
+    mobility_parks_avg DECIMAL(9, 4),
+    mobility_transit_stations_avg DECIMAL(9, 4),
+    mobility_workplaces_avg DECIMAL(9, 4),
+    mobility_residential_avg DECIMAL(9, 4),
+    mobility_rows_observed INT UNSIGNED,
+    mobility_days_with_any_value INT UNSIGNED,
+    source_period_start DATE,
+    source_period_end DATE,
+    source_period_days INT UNSIGNED,
+    mobility_coverage_pct DECIMAL(6, 2),
+    partial_year BOOLEAN,
+    has_policy_data BOOLEAN NOT NULL DEFAULT FALSE,
+    has_mobility_data BOOLEAN NOT NULL DEFAULT FALSE,
+    has_world_bank_metadata BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (iso_code, year),
+    KEY idx_country_year_year (year),
+    CONSTRAINT fk_country_year_country FOREIGN KEY (iso_code) REFERENCES country (iso_code) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB;
