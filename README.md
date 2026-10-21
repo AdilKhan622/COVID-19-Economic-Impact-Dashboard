@@ -7,7 +7,7 @@ Project for **CentraleDigitalLab: Data Storytelling and Visualization** (Central
 > **Live demo:** _<add the URL here once deployed>_
 > **Deadline:** final dashboard and 20-minute group oral presentation, **October 21**.
 
-> **Current status (2026-10-16):** one half of the data — OxCGRT government-response policy, Google Mobility, and World Bank country metadata — is collected, cleaned, merged, and validated under [`Data_cleaning/`](Data_cleaning/). Full method and caveats are in [`Data_cleaning/DATA_CLEANING_DOCUMENTATION.md`](Data_cleaning/DATA_CLEANING_DOCUMENTATION.md). The other half (World Bank economic indicators, IMF WEO, OWID, Mendeley) is not in this repo yet. The Dash app itself (`app.py`, pages, components) has not been written yet.
+> **Current status (2026-10-21):** both data tracks are in [`Data_cleaning/`](Data_cleaning/). Track 1 (OxCGRT policy, Google Mobility, World Bank country metadata) is cleaned, merged and validated by a reproducible pipeline; full method and caveats are in [`Data_cleaning/DATA_CLEANING_DOCUMENTATION.md`](Data_cleaning/DATA_CLEANING_DOCUMENTATION.md). Track 2 (OWID COVID-19, World Bank GDP, OxCGRT vaccine policy) was cleaned in a Colab notebook exported as [`Data_cleaning/scripts/data_cleaning_set2.py`](Data_cleaning/scripts/data_cleaning_set2.py); its outputs are in `Data_cleaning/data/processed/`. World Bank GDP growth, unemployment and inflation are joined into the dashboard table by `prepare_dashboard_data.py`. The Dash app (`app.py`, `pages/`, `components/`) is in the repo.
 
 ---
 
@@ -51,7 +51,7 @@ Opinions about how COVID-19 affected the global economy vary widely. This projec
 | **B: Dashboard Developer**             | Sahasri | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
 | **C: Design, Deployment and Database** | Adil, Sahasri        | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
 
-Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (`Data_cleaning/`); the other covers World Bank economic indicators, IMF WEO, OWID, and Mendeley.
+Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (track 1, `Data_cleaning/scripts/clean_*.py`); the other covers OWID COVID-19, World Bank GDP and the Mendeley/Oxford COVID-19 policy tracker (track 2, `Data_cleaning/scripts/data_cleaning_set2.py`).
 
 
 ---
@@ -82,7 +82,7 @@ python app.py
 
 Then open **http://127.0.0.1:8050** in your browser.
 
-> `app.py` does not exist yet (see the status note at the top of this README). Until it does, you can still run the data-cleaning pipeline with `python3 Data_cleaning/scripts/run_all_cleaning.py` (stdlib only, no extra install needed).
+> The track 1 cleaning pipeline can also be run on its own with `python3 Data_cleaning/scripts/run_all_cleaning.py` (stdlib only, no extra install needed).
 
 ### Alternative: pip
 
@@ -120,53 +120,52 @@ COVID-19-Economic-Impact-Dashboard/
 ├── environment.yml                     # Conda environment (covid-dashboard)
 ├── requirements.txt                    # Same dependencies, for pip/venv
 ├── README.md                           # This file
-├── app.py                              # Dash entry point; exposes `server`            [to be added]
-├── pages/                              # One file per dashboard page (Dash multi-page) [to be added]
-│   ├── home.py
-│   ├── timeline.py
-│   ├── economy.py
-│   ├── countries.py
-│   ├── analysis.py
+├── app.py                              # Dash entry point
+├── pages/                              # One file per dashboard page (Dash multi-page)
+│   ├── overview.py
+│   ├── pandemic_policy.py
+│   ├── economic_shock.py
+│   ├── jobs_inflation.py
+│   ├── country_lab.py
 │   └── methodology.py
-├── components/                         # Reusable UI building blocks                  [to be added]
-│   ├── cards.py                         # kpi_card, chart_card
-│   ├── layout.py                        # navbar, footer, page_header
-│   └── callouts.py                     # insight_box
-├── assets/                             # Auto-loaded by Dash                          [to be added]
+├── components/                         # Reusable building blocks
+│   ├── layout.py
+│   ├── data_utils.py
+│   ├── impact_index.py
+│   └── counterfactual.py
+├── assets/                             # Auto-loaded by Dash
 │   ├── style.css
-│   ├── favicon.ico
-│   └── logo.png
-├── theme.py                            # Shared colors, fonts and chart template      [to be added]
-├── notebooks/                          # Exploratory analysis                        [to be added]
-├── docs/                               # ER diagram, screenshots for the fallback     [to be added]
-│   ├── er_diagram.png
-│   └── screenshots/
-├── db/                                 # Bonus: MySQL                                [to be added]
+│   └── theme.py
+├── db/                                 # Bonus: MySQL
 │   ├── schema.sql
 │   ├── load_data.py
+│   ├── migrate_processed_data.sql
 │   └── covid.sql                       # Database dump
-└── Data_cleaning/                      # Policy/mobility/metadata cleaning pipeline    [done]
+├── tests/
+│   └── test_dashboard_data.py
+└── Data_cleaning/
     ├── .gitignore                      # Only google_mobility/mobility.csv is excluded (224MB, over GitHub's 100MB limit)
-    ├── DATA_CLEANING_DOCUMENTATION.md  # Method, sources, cleaning steps, limitations
+    ├── DATA_CLEANING_DOCUMENTATION.md  # Track 1: method, sources, cleaning steps, limitations
     ├── data/
     │   ├── raw/                        # Original downloads, never edited by hand
-    │   │   ├── oxcgrt/                  # OxCGRT government-response policy tracker
+    │   │   ├── oxcgrt/                 # OxCGRT government-response policy tracker
     │   │   ├── google_mobility/        # Mobility + location index (mobility.csv not committed, see above)
-    │   │   └── world_bank/             # Country/economy metadata (API JSON)
-    │   ├── interim/                    # Cleaned country-day tables
-    │   └── processed/                  # Country-year tables + merged dataset
+    │   │   └── world_bank/             # Country metadata (API JSON) + economic_indicators/ (GDP growth, unemployment, CPI)
+    │   ├── interim/                    # Track 1 cleaned country-day tables
+    │   └── processed/                  # Track 1 country-year tables, track 2 outputs, dashboard master table
     ├── scripts/
-    │   ├── clean_world_bank_metadata.py
-    │   ├── clean_oxcgrt.py
-    │   ├── clean_google_mobility.py
-    │   ├── merge_cleaned_datasets.py
-    │   ├── validate_cleaned_data.py
-    │   └── run_all_cleaning.py         # Runs all five scripts above, in order
+    │   ├── clean_world_bank_metadata.py   # Track 1
+    │   ├── clean_oxcgrt.py                # Track 1
+    │   ├── clean_google_mobility.py       # Track 1
+    │   ├── merge_cleaned_datasets.py      # Track 1
+    │   ├── validate_cleaned_data.py       # Track 1
+    │   ├── run_all_cleaning.py            # Runs the five track 1 scripts above, in order
+    │   ├── data_cleaning_set2.py          # Track 2: Colab notebook export (OWID, World Bank GDP, OxCGRT vaccines)
+    │   └── prepare_dashboard_data.py      # Joins World Bank economic indicators into dashboard_master_annual.csv
     └── reports/
-        └── cleaning_validation.md      # Row/column counts, uniqueness checks, missing-value rates
+        ├── cleaning_validation.md         # Track 1 row/column counts, uniqueness checks, missing-value rates
+        └── dashboard_data_integration.md  # Coverage report for the dashboard master table
 ```
-
-> Items marked `[to be added]` are planned but don't exist yet. Adjust this tree as the real layout evolves, so the README stays accurate.
 
 ---
 
@@ -174,7 +173,7 @@ COVID-19-Economic-Impact-Dashboard/
 
 All paths below are relative to `Data_cleaning/`. Full provenance, cleaning steps, and known limitations are kept in [`DATA_CLEANING_DOCUMENTATION.md`](Data_cleaning/DATA_CLEANING_DOCUMENTATION.md); row/column counts and uniqueness checks are in [`reports/cleaning_validation.md`](Data_cleaning/reports/cleaning_validation.md) — read both before building a chart on top of these files.
 
-### Sources in this repo (retrieved 2026-10-15)
+### Track 1 sources (retrieved 2026-10-15)
 
 | Source                                                                                       | Content                                                                                                  | Local files                 |
 | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -184,11 +183,7 @@ All paths below are relative to `Data_cleaning/`. Full provenance, cleaning step
 
 > `google_mobility/mobility.csv` (224MB) is **not committed** — it's over GitHub's 100MB hard limit. Re-download it from the URL above and drop it in `data/raw/google_mobility/` before running the pipeline. Everything else in `data/raw/` **is** committed and visible on GitHub.
 
-### Sources not yet in this repo
-
-World Bank economic indicators, IMF WEO, OWID COVID-19 data, and the Mendeley dataset are assigned to the other dataset track and will land in a separate part of the project once ready.
-
-### Pipeline
+### Track 1 pipeline
 
 1. **Collect:** raw files in `data/raw/<source>/`, never edited by hand. ✅ done
 2. **Clean:** each source gets its own script (`clean_oxcgrt.py`, `clean_google_mobility.py`, `clean_world_bank_metadata.py`) — country-level filtering, date parsing, numeric conversion, ISO-code harmonisation (including a Kosovo `RKS` → `XKX` crosswalk). Missing values are kept as missing, never zero-filled. ✅ done
@@ -200,6 +195,23 @@ World Bank economic indicators, IMF WEO, OWID COVID-19 data, and the Mendeley da
 # Re-run the whole pipeline (stdlib only, no extra packages needed)
 python3 Data_cleaning/scripts/run_all_cleaning.py
 ```
+
+### Track 2 sources (cleaned 2026-10-16)
+
+Cleaned in a Colab notebook, exported to `scripts/data_cleaning_set2.py`. The notebook downloads its raw files at run time, so there is no track 2 folder under `data/raw/`.
+
+| Source | Content | Output file in `data/processed/` | Shape | Coverage |
+|---|---|---|---|---|
+| [OWID COVID-19 (GitHub CSV)](https://github.com/owid/covid-19-data) | Cases, deaths, testing, vaccinations, stringency, population and country controls | `covid_clean_daily.csv` | 409,909 rows × 42 columns | 2020-01-01 to 2024-08-14; 248 entities |
+| [Mendeley/Oxford COVID-19 policy tracker](https://github.com/OxCGRT/covid-policy-tracker) | Vaccine prioritisation, availability, financial support and mandates by population group | `mendeley_policy_clean_daily.csv` | 202,819 rows × 76 columns | 2020-01-01 to 2023-02-28; 185 countries |
+| [World Bank GDP (datahub mirror)](https://github.com/datasets/gdp) | GDP in current US$, one value per country-year | `wdi_gdp_clean_annual.csv` | 13,979 rows × 4 columns | 1960–2023; 262 entities |
+
+`mendeley_policy_clean_daily.csv` was downloaded from the Oxford tracker's GitHub repository (`OxCGRT/covid-policy-tracker`, file `OxCGRT_vaccines_full.csv`).
+
+- **Primary keys:** `isocode` + `date` for the two daily files; `countrycode` + `year` for GDP.
+- **Duplicate codes removed:** ISO codes that produced duplicate `isocode` + `date` rows in OWID were removed from the main table.
+- **Column names:** normalised to lowercase with spaces and underscores removed (e.g. `new_cases` → `newcases`). Mendeley/Oxford policy columns keep the tracker's `v1`–`v4` prefixes (`v1` prioritisation, `v2` availability, `v3` financial support, `v4` mandate).
+- **No missing values:** both daily files were gap-filled during cleaning, so they contain no empty cells (unlike track 1, which keeps gaps as missing).
 
 ### Data dictionary
 
@@ -216,7 +228,7 @@ Selected columns from `data/processed/merged_country_year_clean.csv` (primary ke
 | `region`, `income_group`                                          | World Bank country classification                    | n/a     | World Bank   | Static             |
 | `has_policy_data`, `has_mobility_data`, `has_world_bank_metadata` | Traceability flags for which sources cover this row  | boolean | merge script | n/a                |
 
-The economic columns (GDP growth, unemployment, etc.) from the other dataset track are `_tbd_` until that part is merged in.
+Economic columns (`real_gdp_growth_pct`, `unemployment_rate_pct`, `inflation_rate_pct`, from the World Bank files in `data/raw/world_bank/economic_indicators/`) are added to `data/processed/dashboard_master_annual.csv` by `prepare_dashboard_data.py`. Their coverage by year is in [`reports/dashboard_data_integration.md`](Data_cleaning/reports/dashboard_data_integration.md).
 
 ---
 
@@ -399,7 +411,7 @@ Visualization can clarify reality or distort it. We follow these principles:
 
 **Is the data sufficient to measure the economic impact?** _Answer yes or no, with justification, once the analysis is done. See the Methodology page of the dashboard._
 
-**Known limitations** (from `Data_cleaning/DATA_CLEANING_DOCUMENTATION.md`; more will be added as the other dataset track lands)
+**Known limitations, track 1** (from `Data_cleaning/DATA_CLEANING_DOCUMENTATION.md`)
 
 - Google Mobility values are % change from a pre-pandemic baseline, not absolute visit counts, and only reflect users who opted into Location History.
 - Mobility data don't cover full calendar years in 2020 (starts Feb 15) or 2022 (ends Sep 12).
@@ -407,6 +419,12 @@ Visualization can clarify reality or distort it. We follow these principles:
 - Annual averages smooth over brief periods of extreme policy or mobility change; the daily files in `data/interim/` are kept for time-series charts.
 - World Bank income groups reflect the API response at download time, not necessarily each country's historical classification in every pandemic year.
 - Two country codes (`TWN`, `REU`) have policy/mobility data but no World Bank metadata match — retained and flagged (`has_world_bank_metadata = false`), not dropped.
+
+**Known limitations, track 2**
+
+- **Missing daily counts were set to 0.** In `covid_clean_daily.csv`, empty `newcases`/`newdeaths` values were filled with 0, and 90.2% of rows now have `newcases = 0`. A 0 can mean "not reported that day" as well as "no new cases". Weekly or yearly totals are safer than single days.
+- **Other gaps were filled with 0 as a last resort.** In `covid_clean_daily.csv`, remaining columns were filled from the same country's nearby values, and set to 0 where a country had no value at all. In `mendeley_policy_clean_daily.csv`, policy values were carried forward and set to 0 before a country's first record. A 0 in these files can mean "no data" as well as "none" (e.g. `extremepoverty = 0`).
+- **OWID data ends on 2024-08-14.** The notebook used OWID's GitHub CSV, which stopped being updated in August 2024; later pandemic years are not covered by `covid_clean_daily.csv`.
 
 ---
 
@@ -426,12 +444,12 @@ Visualization can clarify reality or distort it. We follow these principles:
 - [OxCGRT: COVID-19 Government Response Tracker](https://github.com/OxCGRT/covid-policy-dataset)
 - [Google COVID-19 Community Mobility Reports](https://storage.googleapis.com/covid19-open-data/v3/mobility.csv)
 - [World Bank country/economy API](https://api.worldbank.org/v2/country?format=json&per_page=400)
+- [Our World in Data: COVID-19 dataset](https://github.com/owid/covid-19-data)
+- [Mendeley/Oxford COVID-19 policy tracker](https://github.com/OxCGRT/covid-policy-tracker)
+- [World Bank GDP, current US$ (datahub mirror)](https://github.com/datasets/gdp)
+- World Bank World Development Indicators: GDP growth (`NY.GDP.MKTP.KD.ZG`), unemployment (`SL.UEM.TOTL.ZS`), inflation (`FP.CPI.TOTL.ZG`)
 
-**Not yet in this repo:**
-
-- [Our World in Data: Coronavirus](https://ourworldindata.org/coronavirus)
-- World Bank economic indicators and IMF World Economic Outlook
-- Mendeley Data (specific dataset TBD)
+**Discarded:** IMF World Economic Outlook. It was downloaded and compared in the cleaning notebook, but it turned out identical to the World Bank GDP table, so it was dropped to avoid duplication.
 
 **Tooling:**
 
