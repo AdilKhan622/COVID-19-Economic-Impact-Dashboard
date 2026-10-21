@@ -47,7 +47,7 @@ Opinions about how COVID-19 affected the global economy vary widely. This projec
 
 | Role                                   | Member         | Responsibilities                                                                                                                          |
 | -------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **A: Data and Preprocessing**          | Anuskha, Nour | Dataset search, collection, cleaning, merging, exploratory analysis, data documentation                                                   |
+| **A: Data and Preprocessing**          | Anushka, Nour | Dataset search, collection, cleaning, merging, exploratory analysis, data documentation                                                   |
 | **B: Dashboard Developer**             | Sahasri | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
 | **C: Design, Deployment and Database** | Adil, Sahasri        | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
 
