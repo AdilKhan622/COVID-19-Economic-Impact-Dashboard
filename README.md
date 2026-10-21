@@ -47,10 +47,9 @@ Opinions about how COVID-19 affected the global economy vary widely. This projec
 
 | Role                                   | Member         | Responsibilities                                                                                                                          |
 | -------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **A: Data and Preprocessing**          | _name_, _name_ | Dataset search, collection, cleaning, merging, exploratory analysis, data documentation                                                   |
-| **B: Analyst and Storyteller**         | _name_         | Critical analysis (are the data sufficient?), narrative strategy, choice of indicators and chart types, bias review, annotations and text |
-| **C: Dashboard Developer**             | _name_         | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
-| **D: Design, Deployment and Database** | _name_         | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
+| **A: Data and Preprocessing**          | Anuskha, Nour | Dataset search, collection, cleaning, merging, exploratory analysis, data documentation                                                   |
+| **B: Dashboard Developer**             | Sahasri, Adil       | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
+| **C: Design, Deployment and Database** | Adil        | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
 
 Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (`Data_cleaning/`); the other covers World Bank economic indicators, IMF WEO, OWID, and Mendeley (not yet in this repo).
 
