@@ -53,7 +53,6 @@ Opinions about how COVID-19 affected the global economy vary widely. This projec
 
 Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (`Data_cleaning/`); the other covers World Bank economic indicators, IMF WEO, OWID, and Mendeley (not yet in this repo).
 
-Everyone contributes to the oral presentation and to code reviews.
 
 ---
 
