@@ -51,7 +51,7 @@ Opinions about how COVID-19 affected the global economy vary widely. This projec
 | **B: Dashboard Developer**             | Sahasri | Dash app architecture, multi-page navigation, callbacks, charts, integration                                                              |
 | **C: Design, Deployment and Database** | Adil, Sahasri        | Repo and environment setup, Bootstrap theme and CSS, reusable components, hosting, MySQL schema (bonus)                                   |
 
-Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (`Data_cleaning/`); the other covers World Bank economic indicators, IMF WEO, OWID, and Mendeley (not yet in this repo).
+Role A is split by dataset track: one member cleans OxCGRT, Google Mobility, and World Bank country metadata (`Data_cleaning/`); the other covers World Bank economic indicators, IMF WEO, OWID, and Mendeley.
 
 
 ---
